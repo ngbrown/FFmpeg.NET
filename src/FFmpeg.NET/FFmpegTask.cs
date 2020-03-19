@@ -2,8 +2,11 @@
 {
     internal enum FFmpegTask
     {
+        NotDefined = 0,
         Convert,
         GetMetaData,
-        GetThumbnail
+        GetThumbnail,
+        SingleInputCustom,
+        CustomArguments,
     }
 }

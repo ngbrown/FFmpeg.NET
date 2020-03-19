@@ -85,7 +85,21 @@ namespace FFmpeg.NET
 
         public async Task ExecuteAsync(string arguments, CancellationToken cancellationToken = default)
         {
-            var parameters = new FFmpegParameters { CustomArguments = arguments };
+            if (arguments == null) throw new ArgumentNullException(nameof(arguments));
+            var parameters = new FFmpegParameters { Task = FFmpegTask.CustomArguments, CustomArguments = arguments };
+            await ExecuteAsync(parameters, cancellationToken);
+        }
+
+        public async Task ExecuteAsync(MediaFile input, string arguments, CancellationToken cancellationToken = default)
+        {
+            if (input == null) throw new ArgumentNullException(nameof(input));
+            if (arguments == null) throw new ArgumentNullException(nameof(arguments));
+            var parameters = new FFmpegParameters
+            {
+                Task = FFmpegTask.SingleInputCustom,
+                InputFile = input,
+                CustomArguments = arguments,
+            };
             await ExecuteAsync(parameters, cancellationToken);
         }
 

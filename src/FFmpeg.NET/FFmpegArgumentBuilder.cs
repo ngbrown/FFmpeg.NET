@@ -9,11 +9,14 @@ namespace FFmpeg.NET
     {
         public string Build(FFmpegParameters parameters)
         {
-            if (parameters.HasCustomArguments)
-                return parameters.CustomArguments;
-
             switch (parameters.Task)
             {
+                case FFmpegTask.CustomArguments:
+                    return parameters.CustomArguments;
+
+                case FFmpegTask.SingleInputCustom:
+                    return SingleInputCustom(parameters.InputFile, parameters.CustomArguments);
+
                 case FFmpegTask.Convert:
                     return Convert(parameters.InputFile, parameters.OutputFile, parameters.ConversionOptions);
 
@@ -22,9 +25,15 @@ namespace FFmpeg.NET
 
                 case FFmpegTask.GetThumbnail:
                     return GetThumbnail(parameters.InputFile, parameters.OutputFile, parameters.ConversionOptions);
+
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(parameters), parameters, "Not a valid Task");
             }
+        }
+
+        private string SingleInputCustom(MediaFile inputFile, string arguments)
+        {
+            return string.Format(" -i \"{0}\" {1}", inputFile.FileInfo.FullName, arguments);
         }
 
         private static string GetMetadata(MediaFile inputFile) => $"-i \"{inputFile.FileInfo.FullName}\" -f ffmetadata -";
