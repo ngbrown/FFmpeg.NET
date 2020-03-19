@@ -28,6 +28,8 @@ namespace FFmpeg.NET
             public string FrameSize { get; internal set; }
             public int? BitRateKbs { get; internal set; }
             public double Fps { get; internal set; }
+            public int? Width { get; set; }
+            public int? Height { get; set; }
 
             public override string ToString() 
                 => $"Format: {Format}\nColorModel: {ColorModel}\nFrameSize: {FrameSize}\nBitRateKbs: {BitRateKbs}\nFps: {Fps}";

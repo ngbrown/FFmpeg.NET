@@ -27,7 +27,7 @@ namespace FFmpeg.NET
             {Find.MetaAudio, new Regex(@"(Stream\s*#[0-9]*:[0-9]*\(?[^\)]*?\)?: Audio:.*)")},
             {Find.AudioFormatHzChannel, new Regex(@"Audio:\s*([^,]*),\s([^,]*),\s([^,]*)")},
             {Find.MetaVideo, new Regex(@"(Stream\s*#[0-9]*:[0-9]*\(?[^\)]*?\)?: Video:.*)")},
-            {Find.VideoFormatColorSize, new Regex(@"Video:\s*([^,]*),\s*([^,]*,?[^,]*?),?\s*(?=[0-9]*x[0-9]*)([0-9]*x[0-9]*)")},
+            {Find.VideoFormatColorSize, new Regex(@"Video:\s*([^,]*),\s*([^,]*,?[^,]*?),?\s*(?=[0-9]*x[0-9]*)(([0-9]*)x([0-9]*))")},
             {Find.VideoFps, new Regex(@"([0-9\.]*)\s*tbr")}
         };
 
@@ -137,6 +137,8 @@ namespace FFmpeg.NET
                     Format = matchVideoFormatColorSize[1].ToString(),
                     ColorModel = matchVideoFormatColorSize[2].ToString(),
                     FrameSize = matchVideoFormatColorSize[3].ToString(),
+                    Width = matchVideoFormatColorSize[4].Success ? Convert.ToInt32(matchVideoFormatColorSize[4].ToString()) : default(int),
+                    Height = matchVideoFormatColorSize[5].Success ? Convert.ToInt32(matchVideoFormatColorSize[5].ToString()) : default(int),
                     Fps = matchVideoFps[1].Success && !string.IsNullOrEmpty(matchVideoFps[1].ToString()) ? Convert.ToDouble(matchVideoFps[1].ToString(), new CultureInfo("en-US")) : 0,
                     BitRateKbs =
                         matchVideoBitRate.Success

@@ -92,6 +92,8 @@ namespace FFmpeg.NET.Tests
             Assert.Equal("h264 (Main) (avc1 / 0x31637661)", metaData.VideoData.Format);
             Assert.Equal("yuv420p,", metaData.VideoData.ColorModel);
             Assert.Equal("1280x720", metaData.VideoData.FrameSize);
+            Assert.Equal(1280, metaData.VideoData.Width);
+            Assert.Equal(720, metaData.VideoData.Height);
             Assert.Equal(1205, metaData.VideoData.BitRateKbs);
             Assert.Equal(25, metaData.VideoData.Fps);
 
